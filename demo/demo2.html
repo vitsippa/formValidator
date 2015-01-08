@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>HTML配置实例</title>
+    <script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
+    <!-- layer是可选的，不是必须项 -->
+    <script src="http://res.sentsin.com/lay/lib/layer/layer.min.js?v=1.8.5"></script>
+    <script src="../FormValidator.js"></script>
+</head>
+<body>
+<h1>HTML配置实例</h1>
+
+<form id="form">
+    <input name="test" data-validator="empty" data-errorMsg="必须填写">
+</form>
+<script language="javascript">
+    $(function () {
+        new window.FormValidator({
+            form: $('#form')
+        });
+    });
+</script>
+</body>
+</html>

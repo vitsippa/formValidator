@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>自定义错误消息解析实例</title>
+    <script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
+    <!-- layer是可选的，不是必须项 -->
+    <script src="http://res.sentsin.com/lay/lib/layer/layer.min.js?v=1.8.5"></script>
+    <script src="../FormValidator.js"></script>
+</head>
+<body>
+<h1>自定义错误消息解析实例</h1>
+
+<form id="form">
+    <input name="test" data-validator="number" data-require="true" data-errorMsg="必须为数字,当前内容：{val}">
+    <input type="submit" value="submit">
+</form>
+<script language="javascript">
+    $(function () {
+        var formValidator = new window.FormValidator({
+            form: $('#form')
+        });
+        formValidator.parseMsg = function (msg, tag) {
+            var val = $(tag).val();
+            return msg.replace(/\{val\}/ig, '【' + val + '】').replace(/\{len\}/ig, val.length);
+        }
+    });
+</script>
+</body>
+</html>

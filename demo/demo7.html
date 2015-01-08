@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>验证成功后回调函数实例</title>
+    <script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
+    <!-- layer是可选的，不是必须项 -->
+    <script src="http://res.sentsin.com/lay/lib/layer/layer.min.js?v=1.8.5"></script>
+    <script src="../FormValidator.js"></script>
+</head>
+<body>
+<h1>验证成功后回调函数实例</h1>
+
+<form id="form">
+    <input name="test" data-validator="empty" data-require="true" data-errorMsg="必须填写">
+    <input type="submit" value="submit">
+</form>
+<script language="javascript">
+    $(function () {
+        new window.FormValidator({
+            form: $('#form'),
+            onValidated: function () {
+                // this == form
+                alert('验证已通过');
+                //可以在这个地方实行ajax提交，等等
+                return false;//return false取消submit
+            }
+        });
+    });
+</script>
+</body>
+</html>

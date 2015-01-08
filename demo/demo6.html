@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>自定义函数验证实例</title>
+    <script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
+    <!-- layer是可选的，不是必须项 -->
+    <script src="http://res.sentsin.com/lay/lib/layer/layer.min.js?v=1.8.5"></script>
+    <script src="../FormValidator.js"></script>
+</head>
+<body>
+<h1>自定义函数验证实例</h1>
+
+<form id="form">
+    <input name="test" data-validator="min-number-val" data-errorMsg="必须大于6">
+</form>
+<script language="javascript">
+    $(function () {
+        var form = $('#form');
+        var formValidator = new window.FormValidator({
+            form: form
+        });
+        //addStringValidator 第一个参数必须小写
+        formValidator.addStringValidator('min-number-val', function (tag, validateStringLowCase) {
+            var val = $(tag).val();
+            if (!/^\d+/.test(val)) {
+                return false;
+            }
+            val = parseInt(val);
+            return val > 6
+        });
+    });
+</script>
+</body>
+</html>

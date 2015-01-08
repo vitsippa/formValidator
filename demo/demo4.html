@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>自定义显示结果实例</title>
+    <script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
+    <!-- layer是可选的，不是必须项 -->
+    <script src="http://res.sentsin.com/lay/lib/layer/layer.min.js?v=1.8.5"></script>
+    <script src="../FormValidator.js"></script>
+</head>
+<body>
+<h1>自定义显示结果实例</h1>
+
+<form id="form">
+    <input name="test" data-validator="empty" data-errorMsg="必须填写">
+    <span class="error"></span>
+</form>
+<script language="javascript">
+    $(function () {
+        var form = $('#form');
+        var formValidator = new window.FormValidator({
+            form: form
+        });
+        formValidator.errorMsg = function (tag, str) {
+            $('.error').text(str);
+        };
+        formValidator.commonValidatedCallBack = function (tag, event, isMatch, param) {
+            if (isMatch) {
+                $('.error').text('');
+            }
+        }
+    });
+</script>
+</body>
+</html>
