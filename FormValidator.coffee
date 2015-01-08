@@ -15,7 +15,7 @@ class FormValidator
       float: /^[\-+]?\d+(\.\d+)?$/
     @jq = null
     try
-      {@form,@onValidated,@queue,@jq}=options
+      {@form,@onValidated,@queue,@parseMessage,@jq}=options
     catch
     try
       @jq = if @jq then @jq else jQuery
@@ -120,7 +120,9 @@ class FormValidator
     @runValidatedCallBack tag, event, isMatch, param
   parseMsg: (msg, tag)->
     val = @jq(tag).val()
-    return msg.replace(/\{val\}/ig, val).replace(/\{len\}/ig, val.length)
+    msg = msg.replace(/\{val\}/ig, val).replace(/\{len\}/ig, val.length)
+    msg = @parseMessage(msg, tag) if @isFunction(@parseMessage)
+    msg
   stringRegexpValidator: (tag, key)->
     val = @jq(tag).val()
     regex = @stringValidatorMap[key]

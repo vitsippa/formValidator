@@ -12,18 +12,19 @@
 <h1>自定义错误消息解析实例</h1>
 
 <form id="form">
-    <input name="test" data-validator="number" data-require="true" data-errorMsg="必须为数字,当前内容：{val}">
+    <input name="test" data-validator="number" data-name="文本框" data-require="true"
+           data-errorMsg="{name}的值必须为数字,当前内容：{val}">
     <input type="submit" value="submit">
 </form>
 <script language="javascript">
     $(function () {
         var formValidator = new window.FormValidator({
-            form: $('#form')
+            form: $('#form'),
+            parseMessage: function (msg, tag) {
+                var val = $(tag).attr('data-name');
+                return msg.replace(/\{name\}/ig, val);
+            }
         });
-        formValidator.parseMsg = function (msg, tag) {
-            var val = $(tag).val();
-            return msg.replace(/\{val\}/ig, '【' + val + '】').replace(/\{len\}/ig, val.length);
-        }
     });
 </script>
 </body>

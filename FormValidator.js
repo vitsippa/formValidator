@@ -21,7 +21,7 @@
       };
       this.jq = null;
       try {
-        this.form = options.form, this.onValidated = options.onValidated, this.queue = options.queue, this.jq = options.jq;
+        this.form = options.form, this.onValidated = options.onValidated, this.queue = options.queue, this.parseMessage = options.parseMessage, this.jq = options.jq;
       } catch (_error) {
 
       }
@@ -209,7 +209,11 @@
     FormValidator.prototype.parseMsg = function(msg, tag) {
       var val;
       val = this.jq(tag).val();
-      return msg.replace(/\{val\}/ig, val).replace(/\{len\}/ig, val.length);
+      msg = msg.replace(/\{val\}/ig, val).replace(/\{len\}/ig, val.length);
+      if (this.isFunction(this.parseMessage)) {
+        msg = this.parseMessage(msg, tag);
+      }
+      return msg;
     };
 
     FormValidator.prototype.stringRegexpValidator = function(tag, key) {
