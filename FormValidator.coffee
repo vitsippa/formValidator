@@ -55,7 +55,6 @@ class FormValidator
     return false if !@form
     @jq(@form).submit =>
       return @onSubmit()
-    return
 
   bindEventQueue: (queue)->
     queue = [] if !@jq.isArray(queue)
@@ -120,7 +119,7 @@ class FormValidator
     @runValidatedCallBack tag, event, isMatch, param
   parseMsg: (msg, tag)->
     val = @jq(tag).val()
-    msg = msg.replace(/\{val\}/ig, val).replace(/\{len\}/ig, val.length)
+    msg = msg.replace(/\{val}/ig, val).replace(/\{len}/ig, val.length)
     msg = @parseMessage(msg, tag) if @isFunction(@parseMessage)
     msg
   stringRegexpValidator: (tag, key)->
@@ -190,4 +189,3 @@ class FormValidator
     for p of obj
       k.push p
     k
-window.FormValidator = FormValidator
