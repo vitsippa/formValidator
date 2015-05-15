@@ -87,8 +87,9 @@ class FormValidator
       isMatch = regexp.test val
     catch
     try
-      if !isMatch and typeof param.errorMsg is 'string'
-        msg = @parseMsg param.errorMsg, tag
+      if !isMatch
+        if typeof param.errorMsg is 'string'
+          msg = @parseMsg param.errorMsg, tag
         @errorMsg tag, msg
     catch
     if isMatch
@@ -108,8 +109,9 @@ class FormValidator
       isMatch = v.apply(@, [tag, validateStringLowCase]) if @isFunction(v)
       isMatch = !!isMatch
     try
-      if !isMatch and typeof param.errorMsg is 'string'
-        msg = @parseMsg param.errorMsg, tag
+      if !isMatch
+        if typeof param.errorMsg is 'string'
+          msg = @parseMsg param.errorMsg, tag
         @errorMsg tag, msg
     catch
     if isMatch

@@ -152,8 +152,10 @@ define(function() {
 
       }
       try {
-        if (!isMatch && typeof param.errorMsg === 'string') {
-          msg = this.parseMsg(param.errorMsg, tag);
+        if (!isMatch) {
+          if (typeof param.errorMsg === 'string') {
+            msg = this.parseMsg(param.errorMsg, tag);
+          }
           this.errorMsg(tag, msg);
         }
       } catch (_error) {
@@ -187,8 +189,10 @@ define(function() {
         isMatch = !!isMatch;
       }
       try {
-        if (!isMatch && typeof param.errorMsg === 'string') {
-          msg = this.parseMsg(param.errorMsg, tag);
+        if (!isMatch) {
+          if (typeof param.errorMsg === 'string') {
+            msg = this.parseMsg(param.errorMsg, tag);
+          }
           this.errorMsg(tag, msg);
         }
       } catch (_error) {
