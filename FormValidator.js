@@ -136,6 +136,9 @@ FormValidator = (function() {
     if (this.isRegexp(q)) {
       return this.regexpValidator;
     }
+    if (this.isFunction(q)) {
+      return this.functionValidator;
+    }
     return this.defaultValidator;
   };
 
@@ -148,6 +151,37 @@ FormValidator = (function() {
     isMatch = false;
     try {
       isMatch = regexp.test(val);
+    } catch (_error) {
+
+    }
+    try {
+      if (!isMatch) {
+        if (typeof param.errorMsg === 'string') {
+          msg = this.parseMsg(param.errorMsg, tag);
+        }
+        this.errorMsg(tag, msg);
+      }
+    } catch (_error) {
+
+    }
+    if (isMatch) {
+      this.deleteErrorQueue(tag);
+    } else {
+      if (param.require) {
+        this.addErrorQueue(tag);
+      }
+    }
+    return this.runValidatedCallBack(tag, event, isMatch, param);
+  };
+
+  FormValidator.prototype.commonValidatedCallBack = function(tag, event, isMatch, param) {};
+
+  FormValidator.prototype.functionValidator = function(tag, event, param) {
+    var func, isMatch, msg;
+    func = param.validator;
+    isMatch = false;
+    try {
+      isMatch = func.apply(this, [tag, event, param]);
     } catch (_error) {
 
     }

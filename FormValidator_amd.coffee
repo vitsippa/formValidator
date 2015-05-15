@@ -4,7 +4,7 @@
   @license MIT
   @see usage:{@link https://github.com/vitsippa/formValidator|GitHub}
 ###
-define ()->
+define ->
   class FormValidator
     constructor: (options)->
       @errorQueue = []
@@ -76,6 +76,7 @@ define ()->
       catch
       return @stringValidator if typeof q is 'string'
       return @regexpValidator if @isRegexp(q)
+      return @functionValidator if @isFunction(q)
       return @defaultValidator
 
     defaultValidator: ->
@@ -85,6 +86,25 @@ define ()->
       isMatch = false
       try
         isMatch = regexp.test val
+      catch
+      try
+        if !isMatch
+          if typeof param.errorMsg is 'string'
+            msg = @parseMsg param.errorMsg, tag
+          @errorMsg tag, msg
+      catch
+      if isMatch
+        @deleteErrorQueue tag
+      else
+        @addErrorQueue tag if param.require
+      @runValidatedCallBack tag, event, isMatch, param
+    commonValidatedCallBack: (tag, event, isMatch, param)->
+
+    functionValidator: (tag, event, param)->
+      func = param.validator
+      isMatch = false
+      try
+        isMatch = func.apply @, [tag, event, param]
       catch
       try
         if !isMatch
@@ -119,6 +139,7 @@ define ()->
       else
         @addErrorQueue tag if param.require
       @runValidatedCallBack tag, event, isMatch, param
+
     parseMsg: (msg, tag)->
       val = @jq(tag).val()
       msg = msg.replace(/\{val}/ig, val).replace(/\{len}/ig, val.length)
